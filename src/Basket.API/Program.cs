@@ -21,12 +21,14 @@ builder.Services.AddOpenTelemetry()
         {
             options.Endpoint = new Uri("http://localhost:4317"); // OTLP Exporter
         })
+        .AddSource("eShop.Basket.API")
+        .AddProcessor(new eShop.ServiceDefaults.Telemetry.SensitiveDataProcessor())
     )
     .WithMetrics(metrics => metrics
         .AddAspNetCoreInstrumentation()
         .AddHttpClientInstrumentation()
         .AddMeter("Microsoft.AspNetCore.Hosting")
-        .AddPrometheusExporter()
+        .AddMeter("eShop.Basket.API")
     );
 
 // Add existing services

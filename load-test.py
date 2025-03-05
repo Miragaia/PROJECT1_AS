@@ -6,7 +6,7 @@ import json
 import argparse
 
 # Configuration
-DEFAULT_BASE_URL = "http://localhost:45135"  # Update with your Basket API endpoint
+DEFAULT_BASE_URL = "http://localhost:38939"  # Update with your Basket API endpoint
 NUM_USERS = 10
 REQUESTS_PER_USER = 20
 CONCURRENCY = 5  # Number of concurrent users
