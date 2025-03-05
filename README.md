@@ -140,3 +140,41 @@ The sample catalog data is defined in [catalog.json](https://github.com/dotnet/e
 ## eShop on Azure
 
 For a version of this app configured for deployment on Azure, please view [the eShop on Azure](https://github.com/Azure-Samples/eShopOnAzure) repo.
+
+# eShop Basket Service with OpenTelemetry
+
+This project demonstrates the integration of OpenTelemetry for distributed tracing, metrics collection, and proper handling of sensitive data in an eShop microservice environment.
+
+## Features
+
+- **End-to-end tracing** of the Basket Service operations
+- **Data masking** for sensitive information (PII, credit cards, etc.)
+- **Metrics collection** via Prometheus
+- **Visualization** through Grafana dashboards
+- **Observability** using a complete stack (Jaeger, Prometheus, Grafana)
+
+## Architecture
+
+![Architecture Diagram](docs/architecture.png)
+
+The implementation traces through the following components:
+1. **Client Request** → HTTP/gRPC
+2. **Basket API** → Processing and data access
+3. **Redis Database** → Data storage
+4. **Event Publishing** → Notifications for basket changes
+
+## Getting Started
+
+### Prerequisites
+
+- .NET 8.0 SDK
+- Docker and Docker Compose
+- Python 3.8+ (for load testing)
+
+### Setup Instructions
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/yourusername/PROJECT1_AS.git
+   cd PROJECT1_AS

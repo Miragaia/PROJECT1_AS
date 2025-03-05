@@ -1,0 +1,13 @@
+apiVersion: 1
+
+providers:
+  - name: 'eShopDashboards'
+    orgId: 1
+    folder: 'eShop'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards
+      foldersFromFilesStructure: true

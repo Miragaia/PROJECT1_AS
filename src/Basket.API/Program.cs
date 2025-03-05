@@ -1,5 +1,35 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+using Prometheus;
+using OpenTelemetry;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
+var builder = WebApplication.CreateBuilder(args);
+
+// Service Name for Tracing
+var serviceName = "eShop.Basket.API";
+
+// Configure OpenTelemetry
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource.AddService(serviceName))
+    .WithTracing(tracing => tracing
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddGrpcClientInstrumentation()
+        .AddSqlClientInstrumentation()
+        .AddOtlpExporter(options =>
+        {
+            options.Endpoint = new Uri("http://localhost:4317"); // OTLP Exporter
+        })
+    )
+    .WithMetrics(metrics => metrics
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddMeter("Microsoft.AspNetCore.Hosting")
+        .AddPrometheusExporter()
+    );
+
+// Add existing services
 builder.AddBasicServiceDefaults();
 builder.AddApplicationServices();
 
@@ -7,8 +37,10 @@ builder.Services.AddGrpc();
 
 var app = builder.Build();
 
-app.MapDefaultEndpoints();
+// Expose Prometheus metrics
+app.UseMetricServer();
 
+app.MapDefaultEndpoints();
 app.MapGrpcService<BasketService>();
 
 app.Run();

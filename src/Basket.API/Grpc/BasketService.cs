@@ -2,6 +2,9 @@
 using eShop.Basket.API.Repositories;
 using eShop.Basket.API.Extensions;
 using eShop.Basket.API.Model;
+using System.Diagnostics;
+using OpenTelemetry;
+using OpenTelemetry.Context.Propagation;
 
 namespace eShop.Basket.API.Grpc;
 
@@ -9,14 +12,25 @@ public class BasketService(
     IBasketRepository repository,
     ILogger<BasketService> logger) : Basket.BasketBase
 {
+    private static readonly ActivitySource _activitySource = new("eShop.Basket.API");
+    private static readonly TextMapPropagator _propagator = Propagators.DefaultTextMapPropagator;
+
     [AllowAnonymous]
     public override async Task<CustomerBasketResponse> GetBasket(GetBasketRequest request, ServerCallContext context)
     {
+        using var activity = _activitySource.StartActivity("GetBasket", ActivityKind.Server);
+        
+        logger.LogInformation("GetBasket called for user ID: {UserId}", context.GetUserIdentity());
+
         var userId = context.GetUserIdentity();
         if (string.IsNullOrEmpty(userId))
         {
+            activity?.SetTag("error", true);
+            activity?.SetTag("error.type", "authentication");
             return new();
         }
+
+        activity?.SetTag("user.id", userId); // This will be masked by our processor
 
         if (logger.IsEnabled(LogLevel.Debug))
         {
@@ -27,19 +41,27 @@ public class BasketService(
 
         if (data is not null)
         {
+            activity?.SetTag("basket.items.count", data.Items?.Count ?? 0);
             return MapToCustomerBasketResponse(data);
         }
 
+        activity?.SetTag("basket.found", false);
         return new();
     }
 
     public override async Task<CustomerBasketResponse> UpdateBasket(UpdateBasketRequest request, ServerCallContext context)
     {
+        using var activity = _activitySource.StartActivity("UpdateBasket", ActivityKind.Server);
+
         var userId = context.GetUserIdentity();
         if (string.IsNullOrEmpty(userId))
         {
+            activity?.SetTag("error", true);
+            activity?.SetTag("error.type", "authentication");
             ThrowNotAuthenticated();
         }
+
+        activity?.SetTag("user.id", userId); // This will be masked by our processor
 
         if (logger.IsEnabled(LogLevel.Debug))
         {
@@ -50,19 +72,28 @@ public class BasketService(
         var response = await repository.UpdateBasketAsync(customerBasket);
         if (response is null)
         {
+            activity?.SetTag("error", true);
+            activity?.SetTag("error.type", "not_found");
             ThrowBasketDoesNotExist(userId);
         }
 
+        activity?.SetTag("basket.items.count", response.Items?.Count ?? 0);
         return MapToCustomerBasketResponse(response);
     }
 
     public override async Task<DeleteBasketResponse> DeleteBasket(DeleteBasketRequest request, ServerCallContext context)
     {
+        using var activity = _activitySource.StartActivity("DeleteBasket", ActivityKind.Server);
+
         var userId = context.GetUserIdentity();
         if (string.IsNullOrEmpty(userId))
         {
+            activity?.SetTag("error", true);
+            activity?.SetTag("error.type", "authentication");
             ThrowNotAuthenticated();
         }
+
+        activity?.SetTag("user.id", userId); // This will be masked by our processor
 
         await repository.DeleteBasketAsync(userId);
         return new();
