@@ -27,6 +27,7 @@ public class BasketService(
         {
             activity?.SetTag("error", true);
             activity?.SetTag("error.type", "authentication");
+            activity?.AddEvent(new("User is not authenticated"));
             return new();
         }
 
@@ -42,6 +43,7 @@ public class BasketService(
         if (data is not null)
         {
             activity?.SetTag("basket.items.count", data.Items?.Count ?? 0);
+            activity?.SetTag("basket.found", true);
             return MapToCustomerBasketResponse(data);
         }
 

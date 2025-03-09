@@ -7,9 +7,12 @@ scrape_configs:
       - targets: ['localhost:9090']
   
   - job_name: 'basket-api'
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['host.docker.internal:5003'] # Adjust port to match your Basket.API service
+      - targets: ['host.docker.internal:7298'] 
   
   # Add other services as needed
 

@@ -1,15 +1,20 @@
 ﻿using eShop.Basket.API.Grpc;
 using GrpcBasketItem = eShop.Basket.API.Grpc.BasketItem;
 using GrpcBasketClient = eShop.Basket.API.Grpc.Basket.BasketClient;
-
+using System.Diagnostics;
 namespace eShop.WebApp.Services;
 
 public class BasketService(GrpcBasketClient basketClient)
 {
     public async Task<IReadOnlyCollection<BasketQuantity>> GetBasketAsync()
     {
+        var activity = Activity.Current;
+        activity?.AddEvent(new("Get Basket Async"));
+
         var result = await basketClient.GetBasketAsync(new ());
-        return MapToBasket(result);
+        var basket = MapToBasket(result);
+        activity?.SetTag("basket.items.count", basket.Count);
+        return basket;
     }
 
     public async Task DeleteBasketAsync()
