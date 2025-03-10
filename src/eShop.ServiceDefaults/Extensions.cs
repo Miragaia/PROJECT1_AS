@@ -66,7 +66,9 @@ public static partial class Extensions
                 metrics.AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddRuntimeInstrumentation()
-                    .AddMeter("Experimental.Microsoft.Extensions.AI");
+                    .AddMeter("Experimental.Microsoft.Extensions.AI")
+                    .AddMeter("eShop.WebApp.BasketState");
+                    //TODO: adicionar aqui AddMeter depois de definir metricas do outro lado
             })
             .WithTracing(tracing =>
             {

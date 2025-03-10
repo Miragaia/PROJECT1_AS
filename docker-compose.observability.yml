@@ -32,10 +32,10 @@ services:
       - "3000:3000"
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini  # Add this line
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_SECURITY_ADMIN_USER=admin
-      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
     networks:
       - eshop-network
     depends_on:
