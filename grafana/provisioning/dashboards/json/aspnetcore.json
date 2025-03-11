@@ -24,11 +24,9 @@
   "description": "ASP.NET Core metrics from OpenTelemetry",
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "gnetId": 17706,
   "graphTooltip": 0,
   "id": 3,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
@@ -50,6 +48,7 @@
             "axisPlacement": "auto",
             "axisSoftMin": 0,
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 50,
             "gradientMode": "opacity",
@@ -118,7 +117,7 @@
                 "value": {
                   "legend": false,
                   "tooltip": false,
-                  "viz": false
+                  "viz": true
                 }
               }
             ]
@@ -144,10 +143,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -155,7 +156,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.50, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "microsoft_aspnetcore_hosting_http_server_request_duration_sum",
           "legendFormat": "p50",
           "range": true,
           "refId": "p50"
@@ -166,7 +167,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.75, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "microsoft_aspnetcore_hosting_http_server_request_duration_sum",
           "hide": false,
           "legendFormat": "p75",
           "range": true,
@@ -178,7 +179,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.90, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "microsoft_aspnetcore_hosting_http_server_request_duration_sum",
           "hide": false,
           "legendFormat": "p90",
           "range": true,
@@ -190,7 +191,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "microsoft_aspnetcore_hosting_http_server_request_duration_sum",
           "hide": false,
           "legendFormat": "p95",
           "range": true,
@@ -202,7 +203,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.98, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "microsoft_aspnetcore_hosting_http_server_request_duration_sum",
           "hide": false,
           "legendFormat": "p98",
           "range": true,
@@ -214,7 +215,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "microsoft_aspnetcore_hosting_http_server_request_duration_sum",
           "hide": false,
           "legendFormat": "p99",
           "range": true,
@@ -226,7 +227,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.999, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "microsoft_aspnetcore_hosting_http_server_request_duration_sum",
           "hide": false,
           "legendFormat": "p99.9",
           "range": true,
@@ -254,6 +255,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 50,
             "gradientMode": "opacity",
@@ -370,10 +372,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -381,7 +385,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\", http_response_status_code=~\"4..|5..\"}[$__rate_interval]) or vector(0)) / sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval]))",
+          "expr": "eshop_webapp_basketstate_basket_checkout_itemsrecord_bucket",
           "legendFormat": "All",
           "range": true,
           "refId": "All"
@@ -432,6 +436,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -480,7 +485,7 @@
         "x": 0,
         "y": 9
       },
-      "id": 49,
+      "id": 62,
       "options": {
         "legend": {
           "calcs": [],
@@ -489,10 +494,12 @@
           "showLegend": false
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -500,13 +507,13 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(kestrel_active_connections{job=\"$job\", instance=\"$instance\"})",
+          "expr": "eshop_webapp_basketstate_basket_checkout_valuerecord_sum",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Current Connections",
+      "title": "Total Value of Baskets",
       "type": "timeseries"
     },
     {
@@ -527,6 +534,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -575,7 +583,7 @@
         "x": 6,
         "y": 9
       },
-      "id": 55,
+      "id": 49,
       "options": {
         "legend": {
           "calcs": [],
@@ -584,10 +592,12 @@
           "showLegend": false
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -595,13 +605,13 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(http_server_active_requests{job=\"$job\", instance=\"$instance\"})",
+          "expr": "eshop_webapp_basketstate_basket_checkout_itemsrecord_bucket",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Current Requests",
+      "title": "Number of Items at Basket",
       "type": "timeseries"
     },
     {
@@ -639,12 +649,13 @@
         "x": 12,
         "y": 9
       },
-      "id": 58,
+      "id": 61,
       "options": {
         "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -652,10 +663,12 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {},
-        "textMode": "value"
+        "textMode": "value",
+        "wideLayout": true
       },
-      "pluginVersion": "",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -664,14 +677,14 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(http_server_request_duration_seconds_count{job=\"$job\", instance=\"$instance\"})",
+          "expr": "sum(eshop_webapp_basketstate_basket_checkout_items)",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Total Requests",
+      "title": "Total Items in a Basket",
       "type": "stat"
     },
     {
@@ -682,7 +695,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "dark-red",
+            "fixedColor": "blue",
             "mode": "fixed"
           },
           "mappings": [],
@@ -709,12 +722,13 @@
         "x": 18,
         "y": 9
       },
-      "id": 59,
+      "id": 63,
       "options": {
         "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -722,10 +736,12 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {},
-        "textMode": "value"
+        "textMode": "value",
+        "wideLayout": true
       },
-      "pluginVersion": "",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -734,14 +750,14 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(http_server_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", error_type!=\"\"})",
+          "expr": "sum(eshop_webapp_basketstate_basket_checkout_valuerecord_sum)",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Total Unhandled Exceptions",
+      "title": "Total Value in Baskets",
       "type": "stat"
     },
     {
@@ -785,6 +801,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "max"
@@ -792,9 +809,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name"
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
       },
-      "pluginVersion": "",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -802,13 +821,13 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum by (url_scheme) (\r\n    max_over_time(http_server_request_duration_seconds_count{job=\"$job\", instance=\"$instance\"}[$__rate_interval])\r\n  )",
+          "expr": "sum(system_net_http_http_client_connection_duration_bucket)",
           "legendFormat": "{{scheme}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Requests Secured",
+      "title": "Client Connection Duration",
       "type": "stat"
     },
     {
@@ -816,14 +835,14 @@
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "purple",
+            "fixedColor": "dark-red",
             "mode": "fixed"
           },
           "mappings": [],
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -846,22 +865,26 @@
         "x": 18,
         "y": 13
       },
-      "id": 42,
+      "id": 59,
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
-            "max"
+            "lastNotNull"
           ],
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name"
+        "showPercentChange": false,
+        "text": {},
+        "textMode": "value",
+        "wideLayout": true
       },
-      "pluginVersion": "",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -869,13 +892,15 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum by (method_route) (\r\n    label_replace(max_over_time(http_server_request_duration_seconds_count{job=\"$job\", instance=\"$instance\"}[$__rate_interval]), \"method_route\", \"http/$1\", \"network_protocol_version\", \"(.*)\")\r\n  )",
-          "legendFormat": "{{protocol}}",
+          "exemplar": false,
+          "expr": "sum(system_runtime_dotnet_exceptions)",
+          "instant": false,
+          "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Requests HTTP Protocol",
+      "title": "Total Unhandled Exceptions",
       "type": "stat"
     },
     {
@@ -987,7 +1012,6 @@
         "x": 0,
         "y": 17
       },
-      "hideTimeOverride": false,
       "id": 51,
       "options": {
         "cellHeight": "sm",
@@ -1007,7 +1031,7 @@
           }
         ]
       },
-      "pluginVersion": "",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -1016,7 +1040,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "  topk(10,\r\n  sum by (http_route, http_request_method, method_route) (\r\n    label_join(max_over_time(http_server_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", http_route!=\"\"}[$__rate_interval]), \"method_route\", \" \", \"http_request_method\", \"http_route\")\r\n  ))",
+          "expr": "microsoft_aspnetcore_hosting_http_server_request_duration_sum",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -1025,7 +1049,7 @@
           "refId": "A"
         }
       ],
-      "title": "Top 10 Requested Endpoints",
+      "title": "Request Duration",
       "transformations": [
         {
           "id": "organize",
@@ -1161,7 +1185,6 @@
         "x": 12,
         "y": 17
       },
-      "hideTimeOverride": false,
       "id": 54,
       "options": {
         "cellHeight": "sm",
@@ -1181,7 +1204,7 @@
           }
         ]
       },
-      "pluginVersion": "",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -1190,7 +1213,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "  topk(10,\r\n  sum by (http_route, http_request_method, method_route) (\r\n    label_join(max_over_time(http_server_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", http_route!=\"\", error_type!=\"\"}[$__rate_interval]), \"method_route\", \" \", \"http_request_method\", \"http_route\")\r\n  ))",
+          "expr": "eshop_webapp_basketstate_basket_checkout_itemsrecord_bucket",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -1225,33 +1248,267 @@
         }
       ],
       "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 25
+      },
+      "id": 55,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "microsoft_aspnetcore_server_kestrel_kestrel_active_connections",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Active Connections",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 25
+      },
+      "id": 58,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {},
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(system_net_http_http_client_open_connections)",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Total Open Connections",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "purple",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 29
+      },
+      "id": 42,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "max"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(system_net_http_current_requests)",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Requests HTTP Protocol",
+      "type": "stat"
     }
   ],
+  "preload": false,
   "refresh": "10s",
-  "revision": 1,
-  "schemaVersion": 38,
-  "tags": [
-    "dotnet",
-    "prometheus",
-    "aspnetcore"
-  ],
+  "schemaVersion": 40,
+  "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "metricsapp",
-          "value": "metricsapp"
+          "text": "",
+          "value": ""
         },
         "datasource": {
           "type": "prometheus",
           "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(http_server_active_requests,job)",
-        "hide": 0,
         "includeAll": false,
         "label": "Job",
-        "multi": false,
         "name": "job",
         "options": [],
         "query": {
@@ -1260,25 +1517,21 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
         "type": "query"
       },
       {
         "current": {
-          "selected": false,
-          "text": "host.docker.internal:9090",
-          "value": "host.docker.internal:9090"
+          "text": "",
+          "value": ""
         },
         "datasource": {
           "type": "prometheus",
           "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(http_server_active_requests{job=~\"$job\"},instance)",
-        "hide": 0,
         "includeAll": false,
         "label": "Instance",
-        "multi": false,
         "name": "instance",
         "options": [],
         "query": {
@@ -1287,14 +1540,13 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
         "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
@@ -1313,8 +1565,8 @@
     ]
   },
   "timezone": "",
-  "title": "ASP.NET Core",
-  "uid": "KdDACDp4z",
-  "version": 1,
+  "title": "ASP.NET Core Copy",
+  "uid": "aefh410k9ga2oc",
+  "version": 8,
   "weekStart": ""
 }
