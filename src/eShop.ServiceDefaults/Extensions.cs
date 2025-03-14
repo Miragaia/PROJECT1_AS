@@ -67,7 +67,8 @@ public static partial class Extensions
                     .AddHttpClientInstrumentation()
                     .AddRuntimeInstrumentation()
                     .AddMeter("Experimental.Microsoft.Extensions.AI")
-                    .AddMeter("eShop.WebApp.BasketState");
+                    .AddMeter("eShop.WebApp.BasketState")
+                    .AddMeter("ordering-api");
                     //TODO: adicionar aqui AddMeter depois de definir metricas do outro lado
             })
             .WithTracing(tracing =>
@@ -81,6 +82,7 @@ public static partial class Extensions
                 tracing.AddAspNetCoreInstrumentation()
                     .AddGrpcClientInstrumentation()
                     .AddHttpClientInstrumentation()
+                    .AddProcessor<SensitiveDataProcessor>()
                     .AddSource("Experimental.Microsoft.Extensions.AI")
                     // .AddSource("eShop.Basket.API") // Add your custom activity source
                     .AddSource("eShop.WebApp.Services.OrderStatus.IntegrationEvents.OrderStatusChangedToSubmittedIntegrationEventHandler")
@@ -91,8 +93,7 @@ public static partial class Extensions
                     .AddSource("eShop.Ordering.API.Application.DomainEventHandlers.ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler")
                     .AddSource("eShop.Ordering.Domain.Seedwork.Entity")
                     .AddSource("eShop.Basket.API.IntegrationEvents.EventHandling.OrderStartedIntegrationEventHandler")
-                    .AddSource("Experimental.Microsoft.Extensions.AI") 
-                    .AddProcessor(new SensitiveDataProcessor()); // Add the processor here
+                    .AddSource("Experimental.Microsoft.Extensions.AI");
             });
 
         builder.AddOpenTelemetryExporters();
