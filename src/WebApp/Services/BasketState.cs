@@ -46,6 +46,15 @@ public class BasketState(
         }
     );
 
+    private static readonly Histogram<long> checkoutLatencyHistogram = _meter.CreateHistogram(
+      "basket.checkout.latency",
+      description: "Latency of checkout operation",
+      advice: new InstrumentAdvice<long>
+      {
+          HistogramBucketBoundaries = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 40, 50, 75, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 7500, 10000 ]
+      }
+  );
+
     private Task<IReadOnlyCollection<BasketItem>>? _cachedBasket;
     private HashSet<BasketStateChangedSubscription> _changeSubscriptions = new();
 
@@ -112,6 +121,7 @@ public class BasketState(
     public async Task CheckoutAsync(BasketCheckoutInfo checkoutInfo)
     {
         var activity = Activity.Current;
+        var timer = Stopwatch.StartNew();
 
         try
         {
@@ -166,10 +176,16 @@ public class BasketState(
 
             await orderingService.CreateOrder(request, checkoutInfo.RequestId);
             await DeleteBasketAsync();
+            long elapsed = timer.ElapsedMilliseconds;
+            activity?.SetTag("basket.checkout.latency", elapsed);
+            checkoutLatencyHistogram.Record(elapsed);
         }
         catch (Exception ex)
         {
             activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
+            long elapsed = timer.ElapsedMilliseconds;
+            activity?.SetTag("basket.checkout.latency", elapsed);
+            checkoutLatencyHistogram.Record(elapsed);
             throw;
         }
     }

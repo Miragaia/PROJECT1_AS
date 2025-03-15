@@ -69,13 +69,11 @@ public static partial class Extensions
                     .AddMeter("Experimental.Microsoft.Extensions.AI")
                     .AddMeter("eShop.WebApp.BasketState")
                     .AddMeter("ordering-api");
-                    //TODO: adicionar aqui AddMeter depois de definir metricas do outro lado
             })
             .WithTracing(tracing =>
             {
                 if (builder.Environment.IsDevelopment())
                 {
-                    // We want to view all traces in development
                     tracing.SetSampler(new AlwaysOnSampler());
                 }
 
@@ -84,7 +82,6 @@ public static partial class Extensions
                     .AddHttpClientInstrumentation()
                     .AddProcessor<SensitiveDataProcessor>()
                     .AddSource("Experimental.Microsoft.Extensions.AI")
-                    // .AddSource("eShop.Basket.API") // Add your custom activity source
                     .AddSource("eShop.WebApp.Services.OrderStatus.IntegrationEvents.OrderStatusChangedToSubmittedIntegrationEventHandler")
                     .AddSource("eShop.ClientApp.OrderService")
                     .AddSource("eShop.Ordering.API.OrdersApi")
@@ -101,10 +98,8 @@ public static partial class Extensions
         return builder;
     }
 
-    // Modify the AddOpenTelemetryExporters method to use the correct exporter method
     private static IHostApplicationBuilder AddOpenTelemetryExporters(this IHostApplicationBuilder builder)
     {
-        // Make sure this points to your Jaeger container
         builder.Services.Configure<OpenTelemetryLoggerOptions>(logging => 
             logging.AddOtlpExporter(otlpOptions => 
                 otlpOptions.Endpoint = new Uri("http://localhost:4317")));
@@ -117,19 +112,16 @@ public static partial class Extensions
             tracing.AddOtlpExporter(otlpOptions => 
                 otlpOptions.Endpoint = new Uri("http://localhost:4317")));
 
-        // Use prometheus-net instead of OpenTelemetry.Exporter.Prometheus
-        // The metrics will be available at the /metrics endpoint automatically
 
-        // Add console exporters for local debugging
         if (builder.Environment.IsDevelopment())
         {
             // For metrics
             builder.Services.ConfigureOpenTelemetryMeterProvider(metrics => 
                 metrics.AddOtlpExporter());
             
-            // For traces - replaced AddConsoleExporter() with AddConsoleExporter
+            // For traces
             builder.Services.ConfigureOpenTelemetryTracerProvider(tracing => 
-                tracing.AddOtlpExporter());  // Remove the console exporter for now
+                tracing.AddOtlpExporter()); 
             
             // For logs
             builder.Services.Configure<OpenTelemetryLoggerOptions>(logging => 
@@ -150,11 +142,8 @@ public static partial class Extensions
 
     public static WebApplication MapDefaultEndpoints(this WebApplication app)
     {
-        // Use prometheus-net.AspNetCore
-        app.UseMetricServer();  // This exposes the /metrics endpoint for Prometheus
+        app.UseMetricServer();
 
-        // Adding health checks endpoints to applications in non-development environments has security implications.
-        // See https://aka.ms/dotnet/aspire/healthchecks for details before enabling these endpoints in non-development environments.
         if (app.Environment.IsDevelopment())
         {
             // All health checks must pass for app to be considered ready to accept traffic after starting

@@ -1,21 +1,22 @@
 # Integrating OpenTelemetry & Security in eShop
 
 ## 📌 Objective
-This project adds **OpenTelemetry tracing** to the "Add to Cart" feature of the eShop system. The implementation includes:
+This project adds **OpenTelemetry tracing** to the "Add to Cart/Checkout" feature of the eShop system. The implementation includes:
 
-- End-to-end **tracing** of the "Add to Cart" workflow (Frontend → Basket API → Database) - (intended to)
-- **Masking sensitive data** (emails, payment details) from logs and telemetry - (created the masker but because basket does not contain sensitive info was not applied)
+- End-to-end **tracing** of the "Add to Cart/ Checkout" workflow (Frontend → Basket API → Database)
+- **Masking sensitive data** (userId, emails, payment details) from logs and telemetry
 - **Exporting metrics to Prometheus and Jaeger** and visualizing them in **Grafana**
-- **Load testing** to observe performance and system behavior - (not implemented)
-- (Optional) **Database column masking** for compliance - (not implemented)
+- **Load testing** using locust, to observe performance and system behavior
 
+Report avaliable at  https://github.com/Miragaia/PROJECT1_AS
 ---
 
 ## **1: Prerequisites**
 Ensure you have the following installed:
 - **.NET 9 SDK**
 - **Docker & Docker Compose**
-- **Prometheus &  Jaeger & Grafana**
+- **Prometheus &  Jaeger & Grafana** (are in docker)
+- **locust** 
 
 
 

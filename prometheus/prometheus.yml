@@ -40,18 +40,7 @@ scrape_configs:
       - targets: ['host.docker.internal:7260']
         labels:
             service: 'webhooks-client-https'
-
-  # HTTP
-  # 'http://localhost:5045',  # WebApp HTTP
-  # 'http://localhost:5062',  # Webhooks Client HTTP
-  # 'http://localhost:5221',  # Basket API
-  # 'http://localhost:5222',  # Catalog API
-  # 'http://localhost:5223',  # Identity API HTTP
-  # 'http://localhost:5224',  # Ordering API
-  # 'http://localhost:5226',  # Payment Processor
-  # 'http://localhost:5227',  # Webhooks API
-  # 'http://localhost:11632', # Mobile BFF
-  # 'http://localhost:16888', # Order Processor
+            
   - job_name: 'eshop-webapp-http'
     static_configs:
       - targets: ['host.docker.internal:5045']
@@ -63,12 +52,6 @@ scrape_configs:
       - targets: ['host.docker.internal:5062']
         labels:
           service: 'webhooks-client-http'
-
-  # - job_name: 'eshop-basket-api-http'
-  #   static_configs:
-  #     - targets: ['host.docker.internal:5221']
-  #       labels:
-  #         service: 'basket-api-http'
 
   - job_name: 'eshop-catalog-api-http'
     static_configs:
