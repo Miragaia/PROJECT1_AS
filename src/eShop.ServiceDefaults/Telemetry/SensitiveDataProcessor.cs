@@ -23,10 +23,6 @@ public class SensitiveDataProcessor : BaseProcessor<Activity>
     {
         if (activity == null) return;
 
-        // // Process DisplayName
-        // activity.DisplayName = MaskSensitiveData(activity.DisplayName);
-
-        // Process Tags
         foreach (var tag in activity.TagObjects)
         {
             if (tag.Key.Contains("email", StringComparison.OrdinalIgnoreCase))
