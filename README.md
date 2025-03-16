@@ -8,7 +8,7 @@ This project adds **OpenTelemetry tracing** to the "Add to Cart/Checkout" featur
 - **Exporting metrics to Prometheus and Jaeger** and visualizing them in **Grafana**
 - **Load testing** using locust, to observe performance and system behavior
 
-Report avaliable at  https://github.com/Miragaia/PROJECT1_AS/Report-AS.pdf
+Report avaliable at  [https://github.com/Miragaia/PROJECT1_AS/Report-AS.pdf](https://github.com/Miragaia/PROJECT1_AS/blob/main/Report-AS.pdf)
 ---
 
 ## **1: Prerequisites**
