@@ -1,19 +1,17 @@
-from locust import HttpUser, TaskSet, task, between
+import random
+from locust import HttpUser, task, between
 
-class UserBehavior(TaskSet):
-    @task(1)
-    def load_homepage(self):
-        res = self.client.get("/", verify=False)
-        assert res.status_code == 200, "Failed to load homepage"
+class CatalogUser(HttpUser):
+    wait_time = between(1, 3)
+    host = "http://localhost:5222"
 
-    @task(2)
-    def login(self):
-        url = "/Account/Login?ReturnUrl=%2Fconnect%2Fauthorize%2Fcallback%3Frequest_uri%3Durn%253Aietf%253Aparams%253Aoauth%253Arequest_uri%253A66D714483C41C7BE9D813CD505C994811D5AAE2365CAF861DAEE5DDED6D96C68%26client_id%3Dwebapp"
-        headers = { "Content-Type": "application/x-www-form-urlencoded" }
-        res = self.client.post(url, headers=headers, verify=False)
-        assert res.status_code == 200, "Failed to log in"
+    @task
+    def view_random_catalog_item(self):
+        item_id = random.randint(1, 100)
+        url = f"/api/catalog/items/{item_id}?api-version=1.0"
+        res = self.client.get(url, name="/api/catalog/items/[id]", verify=False)
 
-class WebsiteUser(HttpUser):
-    tasks = [UserBehavior]
-    wait_time = between(1, 3)  # Simulate user wait time between requests
-    host = "https://localhost:5243"  # Replace with your actual base URL
+        if res.status_code == 200:
+            print(f"Fetched item {item_id} successfully.")
+        else:
+            print(f"Failed to fetch item {item_id}, Response: {res.status_code}")
